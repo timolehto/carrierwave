@@ -6,6 +6,7 @@ require "carrierwave/uploader/proxy"
 require "carrierwave/uploader/url"
 require "carrierwave/uploader/mountable"
 require "carrierwave/uploader/cache"
+require "carrierwave/uploader/fog_cache"
 require "carrierwave/uploader/store"
 require "carrierwave/uploader/download"
 require "carrierwave/uploader/remove"
@@ -47,7 +48,13 @@ module CarrierWave
       include CarrierWave::Uploader::Proxy
       include CarrierWave::Uploader::Url
       include CarrierWave::Uploader::Mountable
-      include CarrierWave::Uploader::Cache
+      if fog_cache_enabled and storage == :fog
+        puts "fog cache enabled"
+        include CarrierWave::Uploader::FogCache
+      else
+        puts "fog cache disabled"
+        include CarrierWave::Uploader::Cache
+      end
       include CarrierWave::Uploader::Store
       include CarrierWave::Uploader::Download
       include CarrierWave::Uploader::Remove

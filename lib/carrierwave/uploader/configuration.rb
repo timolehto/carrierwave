@@ -23,6 +23,7 @@ module CarrierWave
         add_config :remove_previously_stored_files_after_update
 
         # fog
+        add_config :fog_cache_enabled
         add_config :fog_attributes
         add_config :fog_credentials
         add_config :fog_directory
@@ -98,7 +99,7 @@ module CarrierWave
               value = self.class.#{name} unless instance_variable_defined?(:@#{name})
               if value.instance_of?(Proc)
                 value.arity >= 1 ? value.call(self) : value.call
-              else 
+              else
                 value
               end
             end
